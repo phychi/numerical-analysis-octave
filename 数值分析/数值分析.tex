@@ -31,7 +31,7 @@
 
 \mainmatter
 \chapter*{前言}
-《数值分析》是许多专业的研究生阶段的必修科目, 本文档适用于哈尔滨工业大学的数值分析B课程，是我学习整理的笔记、习题和实验部分，此外还将哈工大的00-22年的期末试卷由整理为\LaTeX 格式（感谢哈工大网盘计划）.本科数学例如高数的大一和考研的题型与难度也不一样.高等数学因为存在考研所以内容规范且稳定，而数值分析每个学校内容重点都不同.2025级32课时+4次上机实验，很多内容比较简略，话说是不是压缩课时了，讲真教材、PPT与习题需要相应更新以适应压缩课时的情形.你问下AI让它设计32学时的授课方案,它认为课时有限会删很多东西.\LaTeX 源代码在本人的GitHub主页\href{https://github.com/phychi}{phychi}, 虽然也没有什么内容.本文档部分内容可能有些刻意，不像笔记.
+《数值分析》是许多专业的研究生阶段的必修科目, 本文档适用于哈尔滨工业大学的数值分析B课程，是我学习整理的笔记、习题和实验部分，此外还将哈工大的00-22年的期末试卷由图片整理为\LaTeX 格式（感谢哈工大网盘计划）.本科数学例如高数的大一和考研的题型与难度也不一样.高等数学因为存在考研所以内容规范且稳定，而数值分析每个学校内容重点都不同.2025级32课时+4次上机实验，很多内容比较简略，话说是不是压缩课时了，讲真教材、PPT与习题需要相应更新以适应压缩课时的情形.你问下AI让它设计32学时的授课方案,它认为课时有限会删很多东西.\LaTeX 源代码在本人的GitHub主页\href{https://github.com/phychi}{phychi}, 虽然也没有什么内容.本文档部分内容可能有些刻意，不像笔记.
 
 感谢\href{https://github.com/ElegantLaTeX}{ElegantLaTeX}提供的精美模板，停止更新太可惜了.
 \chapter{绪论}
@@ -203,6 +203,105 @@ $\sin x-\dfrac{x^2}{2}=0$在(0,1)内的根的近似值($\zeta=0.4*10^{-5}$)
 \chapter{矩阵特征值与特征向量的计算}
 \chapter{常微分方程初值问题的数值解法}
 \section{习题}
+\begin{exercise}
+	给定线性多步法
+	
+	$y_{n+1} =(1-\alpha)y_n+\alpha y_{n-1}+\frac{h}{4}((\alpha+3)y'_{n+1}+(3\alpha+1)y'_{n-1})$
+	
+	证明：
+	
+	(1)当$\alpha\neq1$时，方法为二阶；当$\alpha=-1$时，方法为三阶。
+	
+	(2)当$\alpha=-1$时，方法不收敛，$\alpha$取何值时方法收敛（二阶方法）?
+\end{exercise}
+\begin{proof}[\textbf{第(1)问}]
+	将所给多步法写成标准形式：
+	\[
+	\alpha_2 y_{n+1} + \alpha_1 y_n + \alpha_0 y_{n-1} = h\left( \beta_2 y'_{n+1} + \beta_1 y'_n + \beta_0 y'_{n-1} \right),
+	\]
+	其中
+	\[
+	\alpha_2 = 1,\quad \alpha_1 = -(1-\alpha) = \alpha-1,\quad \alpha_0 = -\alpha,
+	\]
+	\[
+	\beta_2 = \frac{\alpha+3}{4},\quad \beta_1 = 0,\quad \beta_0 = \frac{3\alpha+1}{4}.
+	\]
+	
+	定义线性差分算子：
+	\[
+	L[y(t);h] = \sum_{j=0}^2 \left[ \alpha_j y(t+jh) - h \beta_j y'(t+jh) \right],
+	\]
+	在 $t=0$ 处对光滑函数 $y(t)$ 作泰勒展开。
+	
+	先计算 $\alpha$ 部分：
+	\[
+	A = \alpha_2 y(h) + \alpha_1 y(0) + \alpha_0 y(-h)
+	\]
+	代入展开式：
+	\begin{align*}
+		y(h) &= y + h y' + \frac{h^2}{2} y'' + \frac{h^3}{6} y''' + \frac{h^4}{24} y^{(4)} + O(h^5), \\
+		y(-h) &= y - h y' + \frac{h^2}{2} y'' - \frac{h^3}{6} y''' + \frac{h^4}{24} y^{(4)} + O(h^5),
+	\end{align*}
+	得
+	\[
+	A = (1+\alpha) h y' + \frac{1-\alpha}{2} h^2 y'' + \frac{1+\alpha}{6} h^3 y''' + \frac{1-\alpha}{24} h^4 y^{(4)} + O(h^5).
+	\]
+	
+	再计算 $\beta$ 部分：
+	\[
+	B = h\left[ \beta_2 y'(h) + \beta_0 y'(-h) \right],
+	\]
+	其中
+	\begin{align*}
+		y'(h) &= y' + h y'' + \frac{h^2}{2} y''' + \frac{h^3}{6} y^{(4)} + O(h^4), \\
+		y'(-h) &= y' - h y'' + \frac{h^2}{2} y''' - \frac{h^3}{6} y^{(4)} + O(h^4).
+	\end{align*}
+	代入得
+	\[
+	B = (\alpha+1) h y' + \frac{1-\alpha}{2} h^2 y'' + \frac{\alpha+1}{2} h^3 y''' + \frac{1-\alpha}{12} h^4 y^{(4)} + O(h^5).
+	\]
+	
+	于是
+	\[
+	L[y(t);h] = A - B = -\frac{1+\alpha}{3} h^3 y''' - \frac{1-\alpha}{24} h^4 y^{(4)} + O(h^5).
+	\]
+	
+	因此：
+	\begin{itemize}
+		\item 若 $\alpha \neq -1$，则 $C_3 \neq 0$，方法是二阶；
+		\item 若 $\alpha = -1$，则 $C_3 = 0$，但 $C_4 = -\frac{1}{12} \neq 0$，方法是三阶。
+	\end{itemize}
+\end{proof}
+
+\begin{proof}[\textbf{第(2)问}]
+	收敛性要求满足根条件。第一特征多项式为
+	\[
+	\rho(r) = r^2 - (1-\alpha) r - \alpha.
+	\]
+	解方程：
+	\[
+	r^2 - (1-\alpha) r - \alpha = 0,
+	\]
+	判别式 $\Delta = (1-\alpha)^2 + 4\alpha = (\alpha+1)^2$，根为
+	\[
+	r_{1,2} = \frac{1-\alpha \pm |\alpha+1|}{2}.
+	\]
+	总得到根 $r_1 = 1$（主根），$r_2 = -\alpha$。
+	
+	根条件要求：
+	\begin{enumerate}
+		\item $|r_2| \le 1$，即 $|\alpha| \le 1$；
+		\item 若 $|r_2| = 1$，则须为单根。
+	\end{enumerate}
+	
+	当 $\alpha = -1$ 时，$r_2 = 1$，与主根重合，且
+	\[
+	\rho'(r) = 2r - (1-\alpha),\quad \rho'(1) = 1+\alpha = 0,
+	\]
+	主根为重根，不满足根条件，故不收敛。
+	
+	对于二阶方法 ($\alpha \neq -1$)，收敛当且仅当 $-1 < \alpha \le 1$。
+\end{proof}
 \begin{exercise}
 	利用四阶经典的龙格-库塔法求解初边值问题\[ 
 	\begin{cases}
