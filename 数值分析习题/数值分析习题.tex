@@ -1,0 +1,130 @@
+\documentclass[lang=cn,newtx,12pt,scheme=chinese]{elegantbook}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs} % 添加美观的表格线
+
+\title{数值分析习题与实验}
+
+\author{Chad Holton}
+\date{\today}
+\bioinfo{邮箱}{chadholton@qq.com}
+
+\setcounter{tocdepth}{3}
+
+\cover{cover.png}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的色带
+\definecolor{customcolor}{RGB}{32,128,150}
+\colorlet{coverlinecolor}{customcolor}
+\usepackage{cprotect}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+\chapter*{前言}
+《数值分析》是许多专业的硕士阶段的必修科目, 本文档是我学习整理的笔记和部分习题解析. 不同学校的授课内容也不一样, 因为课时原因有些内容不会讲. 将笔记用LaTex表示是要给他人看吗? 其实我不知道, 在个别章节可能有用, 但是每个人理解不一样, 有的内容我可能干脆就没记笔记直接记住了,而对于别人就不便利了. 顺便介绍一下作者本人的\href{https://github.com/phychi}{GitHub}主页, 虽然也没有什么内容.
+
+数值分析的学习有一点就是已知和未知的界限, 有些疏忽会导致知道原理却不会做题, 例如误差分析. 
+\chapter{非线性方程（组）的数值解法}
+\section{填空题}
+\section{计算与讨论题}
+\section{复习思考题}
+\chapter{线性方程组的数值解法}
+\section{填空题}
+\section{计算与讨论题}
+\section{复习思考题}
+\chapter{插值方法与数值逼近}
+\section{填空题}
+\section{计算与讨论题}
+\begin{exercise}
+	定义内积$(f,g)=\int_{0}^{1} f(x)g(x) \, dx$, 试在$H_1=Span\{1,x\}$中寻求对于$f(x)=\sqrt{x}$的最佳平方逼近元素$P_1(x)$. 
+\end{exercise}
+
+\begin{solution}
+	即 $D(x)$ 在 $[0,1]$ 上是 Lebesgue 可积的并且积分值为零。但 $D(x)$ 在 $[0,1]$ 上不是 Riemann 可积的。
+\end{solution}
+\begin{exercise}
+求$a,b$使积分$\int_{0}^{\pi/2}(ax+b-\sin x)^2 \, dx$为最小.
+\end{exercise}
+
+\begin{solution}
+	求$a,b$使积分积$\int_{0}^{\pi/2}(ax+b-\sin x)^2 \, dx$为最小.
+\end{solution}
+\begin{exercise}
+	确定参数$a,b,c$使积分$\int_{-1}^{1}\dfrac{1}{\sqrt{1-x^2}}(ax^2+bx+c-\sqrt{1-x^2})^2 \, dx$为最小.
+\end{exercise}
+
+\begin{solution}
+	求$a,b$使积分积$\int_{0}^{\pi/2}(ax+b-\sin x)^2 \, dx$为最小.
+\end{solution}
+
+\begin{exercise}
+	确定多项式$y=a+bx^2$中的参数$a$和$b$，使数据多项式曲线按照最小二乘原则拟合下列数据：$x_i=[19,25,31,38]$,$y_i=[19.0,32.3,49.0,73.3]$.
+\end{exercise}
+
+\begin{solution}
+	求$a,b$使积分积$\int_{0}^{\pi/2}(ax+b-\sin x)^2 \, dx$为最小.
+\end{solution}
+\begin{exercise}
+	已知数据表：$x_i=[0.1,0.2,0.3,0.4,0.5]$,$y_i=[80.4,53.9,36.1,24.2,16.2]$，构造形如$y=ae^{bx}$的经验公式.
+\end{exercise}
+
+\begin{solution}
+	求$a,b$使积分积$\int_{0}^{\pi/2}(ax+b-\sin x)^2 \, dx$为最小.
+\end{solution}
+
+$\begin{bmatrix}
+	xy-z^2-1\\
+	xyz+y^2-x^2-2\\
+	e^x+z-e^y-3
+\end{bmatrix}=0$
+\section{复习思考题}
+\chapter{数值积分}
+\section{填空题}
+$\sin x-\dfrac{x^2}{2}=0$在(0,1)内的根的近似值($\zeta=0.4*10^{-5}$)
+\section{计算与讨论题}
+\section{复习思考题}
+\chapter{矩阵特征值与特征向量的计算}
+\section{填空题}
+\section{计算与讨论题}
+\section{复习思考题}
+\chapter{常微分方程初值问题的数值解法}
+\section{填空题}
+\section{计算与讨论题}
+\begin{exercise}
+	利用改进欧拉法解初值问题\[ 
+	\begin{cases}
+		y'=x+y,0\leq x\leq 1\\
+		y(0)=1
+	\end{cases}
+	 \]
+	 取步长$h=0.2$.
+\end{exercise}
+
+\begin{solution}
+	求$a,b$使积分积$\int_{0}^{\pi/2}(ax+b-\sin x)^2 \, dx$为最小.
+\end{solution}
+\begin{exercise}
+	用经典的四阶龙格库塔公式解初值问题\[ 
+	\begin{cases}
+		y'=x+y,0\leq x\leq 1\\
+		y(0)=1
+	\end{cases}
+	\]
+	取步长$h=0.2$.
+\end{exercise}
+
+\begin{solution}
+	求$a,b$使积分积$\int_{0}^{\pi/2}(ax+b-\sin x)^2 \, dx$为最小.
+\end{solution}
+\section{复习思考题}
+\end{document}
