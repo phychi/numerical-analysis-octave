@@ -1,9 +1,7 @@
-%% 《数值分析》非线性方程求解实验
-%% 实验目标：比较不同非线性方程求解方法的性能和精度
+%% 《数值分析》实验1:非线性方程求解
+%% 实验目标：编程实现不同非线性方程求解方法
 
-clear all;
-close all;
-clc;
+clear all;close all;clc;
 format long
 fprintf('=== Numerical Analysis: Nonlinear Equations Solving ===\n\n');
 
@@ -11,10 +9,8 @@ fprintf('=== Numerical Analysis: Nonlinear Equations Solving ===\n\n');
 fprintf('1. Bisection Method for sin(x) - x^2/2 = 0\n');
 fprintf('--------------------------------------------\n');
 
-% 定义函数 - 使用元素级运算
 f1 = @(x) sin(x) - x.^2/2;
 
-% 设置参数
 a = 1;
 b = 2;
 zeta = 0.5 * 10^(-5);
@@ -30,7 +26,6 @@ while (b - a) > zeta && iter < max_iter
     c = (a + b) / 2;
     fc = f1(c);
     fa = f1(a);
-
     fprintf('Iter %2d: a=%f, b=%f, c=%f, f(c)=%f\n', ...
             iter, a, b, c, fc);
 
@@ -53,12 +48,11 @@ fprintf('------------------\n');
 
 % 2.1 xe^x - 1 = 0
 fprintf('(1) x*exp(x) - 1 = 0\n');
-f2_1 = @(x) x .* exp(x) - 1;  % 使用点乘
-df2_1 = @(x) exp(x) + x .* exp(x); % 导数，使用点乘
+f2_1 = @(x) x .* exp(x) - 1;
+df2_1 = @(x) exp(x) + x .* exp(x);
 x0 = 0.5;
 tolerance = 1e-8;
 max_iter_newton = 50;
-
 fprintf('Initial guess: %.1f\n', x0);
 x_current = x0;
 for i = 1:max_iter_newton
@@ -77,10 +71,9 @@ fprintf('Final root: %.10f\n\n', x_current);
 
 % 2.2 x^3 - x - 1 = 0
 fprintf('(2) x^3 - x - 1 = 0\n');
-f2_2 = @(x) x.^3 - x - 1;  % 使用点乘
-df2_2 = @(x) 3*x.^2 - 1; % 导数
+f2_2 = @(x) x.^3 - x - 1;
+df2_2 = @(x) 3*x.^2 - 1;
 x0 = 1;
-
 fprintf('Initial guess: %.1f\n', x0);
 x_current = x0;
 for i = 1:max_iter_newton
@@ -99,8 +92,8 @@ fprintf('Final root: %.10f\n\n', x_current);
 
 % 2.3 (x-1)^2(2x-1) = 0
 fprintf('(3) (x-1)^2(2x-1) = 0\n');
-f2_3 = @(x) (x-1).^2 .* (2*x-1);  % 全部使用点乘
-df2_3 = @(x) 2*(x-1).*(2*x-1) + 2*(x-1).^2; % 导数
+f2_3 = @(x) (x-1).^2 .* (2*x-1);
+df2_3 = @(x) 2*(x-1).*(2*x-1) + 2*(x-1).^2;
 
 % 测试两个不同的初始值
 initial_guesses = [0.45, 0.65];
@@ -112,17 +105,13 @@ for guess_idx = 1:length(initial_guesses)
     for i = 1:max_iter_newton
         fx = f2_3(x_current);
         dfx = df2_3(x_current);
-
         % 避免除零
         if abs(dfx) < 1e-12
             fprintf('Warning: Derivative too small at iteration %d\n', i);
             break;
         end
-
         x_next = x_current - fx / dfx;
-
         fprintf('Iter %2d: x=%.10f, f(x)=%.2e\n', i, x_current, fx);
-
         if abs(x_next - x_current) < tolerance
             break;
         end
@@ -135,7 +124,7 @@ end
 fprintf('3. Secant Method for x*exp(x) - 1 = 0\n');
 fprintf('--------------------------------------\n');
 
-f3 = @(x) x .* exp(x) - 1;  % 使用点乘
+f3 = @(x) x .* exp(x) - 1;
 x0 = 0.4;
 x1 = 0.6;
 tolerance_secant = 1e-8;
@@ -176,8 +165,8 @@ fprintf('Final root: %.10f\n\n', x_curr);
 fprintf('4. Modified Newton''s Method for (x-1)^2(2x-1) = 0\n');
 fprintf('---------------------------------------------------\n');
 
-f4 = @(x) (x-1).^2 .* (2*x-1);  % 使用点乘
-df4 = @(x) 2*(x-1).*(2*x-1) + 2*(x-1).^2; % 导数
+f4 = @(x) (x-1).^2 .* (2*x-1);
+df4 = @(x) 2*(x-1).*(2*x-1) + 2*(x-1).^2;
 x0 = 0.55;
 
 fprintf('Initial guess: %.2f\n', x0);
@@ -208,11 +197,8 @@ x_current_std = x0;
 for i = 1:max_iter_newton
     fx = f4(x_current_std);
     dfx = df4(x_current_std);
-
     x_next = x_current_std - fx / dfx;
-
     fprintf('Iter %2d: x=%.10f, f(x)=%.2e\n', i, x_current_std, fx);
-
     if abs(x_next - x_current_std) < tolerance
         break;
     end
@@ -224,7 +210,7 @@ fprintf('Final root (standard): %.10f\n\n', x_current_std);
 fprintf('5. Quasi-Newton Method for Nonlinear System\n');
 fprintf('-------------------------------------------\n');
 
-% 定义方程组 - 这里使用标量运算，不需要点乘
+% 定义方程组
 F = @(x) [x(1)*x(2) - x(3)^2 - 1;
           x(1)*x(2)*x(3) + x(2)^2 - x(1)^2 - 2;
           exp(x(1)) + x(3) - exp(x(2)) - 3];
@@ -283,14 +269,3 @@ end
 
 fprintf('Final solution: [%.8f, %.8f, %.8f]\n', x_current);
 fprintf('Final function values: [%.2e, %.2e, %.2e]\n\n', F(x_current));
-
-%% 结果总结
-fprintf('=== SUMMARY OF RESULTS ===\n');
-fprintf('1. Bisection method found root at: %.8f\n', root_bisection);
-fprintf('2. Newton method results:\n');
-fprintf('   - x*exp(x)-1=0: converges to solution\n');
-fprintf('   - x^3-x-1=0: converges to solution\n');
-fprintf('   - (x-1)^2(2x-1)=0: sensitive to initial guess\n');
-fprintf('3. Secant method: efficient alternative to Newton\n');
-fprintf('4. Modified Newton: better for multiple roots\n');
-fprintf('5. Quasi-Newton: effective for nonlinear systems\n');
