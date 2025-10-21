@@ -83,80 +83,44 @@ fprintf('一次    %.6f    %.6f    y=%.4fx+%.4f\n', sum(error1.^2), R_sq1, coeff
 fprintf('二次    %.6f    %.6f    y=%.4fx²+%.4fx+%.4f\n', sum(error2.^2), R_sq2, coeffs2(1), coeffs2(2), coeffs2(3));
 fprintf('三次    %.6f    %.6f    y=%.4fx³+%.4fx²+%.4fx+%.4f\n', sum(error3.^2), R_sq3, coeffs3(1), coeffs3(2), coeffs3(3), coeffs3(4));
 
-%% 绘制图形比较
-figure('Position', [100, 100, 1200, 800]);
 
-% 子图1：拟合曲线对比
-subplot(2,3,1);
+%% 子图1：拟合曲线对比
+subplot(2,1,1);
 xx = linspace(min(x)-0.5, max(x)+0.5, 100);
-plot(x, y, 'ro', 'MarkerSize', 8, 'LineWidth', 2, 'DisplayName', '原始数据');
+plot(x, y, 'ro', 'MarkerSize', 10, 'LineWidth', 2, 'DisplayName', '原始数据');
 hold on;
-plot(xx, polyval(coeffs1, xx), 'b-', 'LineWidth', 2, 'DisplayName', '一次拟合');
-plot(xx, polyval(coeffs2, xx), 'g-', 'LineWidth', 2, 'DisplayName', '二次拟合');
-plot(xx, polyval(coeffs3, xx), 'm-', 'LineWidth', 2, 'DisplayName', '三次拟合');
-xlabel('x'); ylabel('y');
-title('最小二乘法拟合对比');
-legend('show'); grid on;
+plot(xx, polyval(coeffs1, xx), 'b-', 'LineWidth', 2.5, 'DisplayName', '一次拟合');
+plot(xx, polyval(coeffs2, xx), 'g-', 'LineWidth', 2.5, 'DisplayName', '二次拟合');
+plot(xx, polyval(coeffs3, xx), 'm-', 'LineWidth', 2.5, 'DisplayName', '三次拟合');
 
-% 子图2：一次拟合结果
-subplot(2,3,2);
-plot(x, y, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
-hold on;
-plot(xx, polyval(coeffs1, xx), 'b-', 'LineWidth', 2);
-plot(x, y_fit1, 'bx', 'MarkerSize', 8, 'LineWidth', 2);
-for i = 1:length(x)
-    plot([x(i), x(i)], [y(i), y_fit1(i)], 'k--', 'LineWidth', 1);
-end
-xlabel('x'); ylabel('y');
-title(['一次拟合 R²=', num2str(R_sq1, '%.4f')]);
+% 设置坐标轴标签和标题的字体大小
+xlabel('x', 'FontSize', 16, 'FontWeight', 'bold');
+ylabel('y', 'FontSize', 16, 'FontWeight', 'bold');
+title('最小二乘法拟合对比', 'FontSize', 18, 'FontWeight', 'bold');
+
+% 设置图例字体大小
+legend('show', 'FontSize', 14, 'Location', 'best');
 grid on;
 
-% 子图3：二次拟合结果
-subplot(2,3,3);
-plot(x, y, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
+% 设置坐标轴刻度字体大小
+set(gca, 'FontSize', 14);
+
+% 子图2：残差分析
+subplot(2,1,2);
+plot(x, error1, 'bo-', 'MarkerSize', 8, 'LineWidth', 2.5, 'DisplayName', '一次拟合残差');
 hold on;
-plot(xx, polyval(coeffs2, xx), 'g-', 'LineWidth', 2);
-plot(x, y_fit2, 'gx', 'MarkerSize', 8, 'LineWidth', 2);
-for i = 1:length(x)
-    plot([x(i), x(i)], [y(i), y_fit2(i)], 'k--', 'LineWidth', 1);
-end
-xlabel('x'); ylabel('y');
-title(['二次拟合 R²=', num2str(R_sq2, '%.4f')]);
+plot(x, error2, 'go-', 'MarkerSize', 8, 'LineWidth', 2.5, 'DisplayName', '二次拟合残差');
+plot(x, error3, 'mo-', 'MarkerSize', 8, 'LineWidth', 2.5, 'DisplayName', '三次拟合残差');
+plot([min(x), max(x)], [0, 0], 'k--', 'LineWidth', 1.5);
+
+% 设置坐标轴标签和标题的字体大小
+xlabel('x', 'FontSize', 16, 'FontWeight', 'bold');
+ylabel('残差', 'FontSize', 16, 'FontWeight', 'bold');
+title('拟合残差对比', 'FontSize', 18, 'FontWeight', 'bold');
+
+% 设置图例字体大小
+legend('show', 'FontSize', 14, 'Location', 'best');
 grid on;
 
-% 子图4：三次拟合结果
-subplot(2,3,4);
-plot(x, y, 'ro', 'MarkerSize', 8, 'LineWidth', 2);
-hold on;
-plot(xx, polyval(coeffs3, xx), 'm-', 'LineWidth', 2);
-plot(x, y_fit3, 'mx', 'MarkerSize', 8, 'LineWidth', 2);
-for i = 1:length(x)
-    plot([x(i), x(i)], [y(i), y_fit3(i)], 'k--', 'LineWidth', 1);
-end
-xlabel('x'); ylabel('y');
-title(['三次拟合 R²=', num2str(R_sq3, '%.4f')]);
-grid on;
-
-% 子图5：残差分析
-subplot(2,3,5);
-plot(x, error1, 'bo-', 'MarkerSize', 6, 'LineWidth', 2, 'DisplayName', '一次拟合残差');
-hold on;
-plot(x, error2, 'go-', 'MarkerSize', 6, 'LineWidth', 2, 'DisplayName', '二次拟合残差');
-plot(x, error3, 'mo-', 'MarkerSize', 6, 'LineWidth', 2, 'DisplayName', '三次拟合残差');
-plot([min(x), max(x)], [0, 0], 'k--', 'LineWidth', 1);
-xlabel('x'); ylabel('残差');
-title('拟合残差对比');
-legend('show'); grid on;
-
-% 子图6：SSE对比
-subplot(2,3,6);
-SSE = [sum(error1.^2), sum(error2.^2), sum(error3.^2)];
-bar(1:3, SSE, 'FaceColor', [0.7 0.7 0.7]);
-set(gca, 'XTickLabel', {'一次', '二次', '三次'});
-ylabel('残差平方和 SSE');
-title('SSE比较');
-for i = 1:3
-    text(i, SSE(i)+0.01, sprintf('%.4f', SSE(i)), ...
-         'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
-end
-grid on;
+% 设置坐标轴刻度字体大小
+set(gca, 'FontSize', 14);
