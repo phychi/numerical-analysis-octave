@@ -1,0 +1,120 @@
+\documentclass[12pt, a4paper]{article} % 使用 article 文档类，12磅字体，A4纸
+
+% ===== 预定义包 =====
+\usepackage[UTF8]{ctex} % 支持中文
+\usepackage{geometry} % 设置页边距
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\usepackage{amsmath, amssymb, amsthm} % 数学符号和定理环境
+\usepackage{booktabs} % 制作三线表
+\usepackage{enumitem} % 控制列表格式
+\usepackage{hyperref} % 创建超链接
+\usepackage{titlesec} % 自定义标题格式
+\usepackage{multirow} % 表格中合并行
+
+% ===== 自定义格式 =====
+% 设置章节标题格式
+\titleformat{\section}[block]{\Large\bfseries\centering}{\thesection}{1em}{}
+\titleformat{\subsection}[block]{\large\bfseries}{\thesubsection}{1em}{}
+
+% 设置列表间隔
+\setlist[itemize]{noitemsep, topsep=0pt} % 无间隔的项目列表
+\setlist[enumerate]{noitemsep, topsep=0pt} % 无间隔的编号列表
+
+% ===== 文档开始 =====
+\begin{document}
+	
+	
+	\section{学时分配总览}
+	\begin{table}[h!]
+		\centering
+		\caption{课程内容与学时分配表}
+		\label{tab:schedule}
+		\begin{tabular}{c l c}
+			\toprule
+			\textbf{部分} & \textbf{内容} & \textbf{学时} \\
+			\midrule
+			I & 绪论与基础 & 4 \\
+			II & 非线性方程的数值解法 & 6 \\
+			III & 线性方程组的数值解法 & 8 \\
+			IV & 插值方法与数值逼近 & 8 \\
+			V & 数值积分 & 5 \\
+			VI & 矩阵特征值与特征向量的计算 & 5 \\
+			VII & 常微分方程初值问题的数值解法 & 8 \\
+			VIII & 课程复习与综合应用 & 4 \\
+			\midrule
+			& \textbf{总计} & \textbf{48} \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	% ===== 详细教学内容 =====
+	\section{详细教学内容}
+	
+	\subsection{第一部分：绪论与基础 (4学时)}
+	\begin{enumerate}
+		\item \textbf{第1-2学时：课程导论与误差分析}
+		\begin{itemize}
+			\item 数值分析的研究对象与意义（科学与工程中的计算问题举例）。
+			\item 误差的来源：模型误差、观测误差、截断误差、舍入误差。
+			\item 误差的基本概念：绝对误差、相对误差、有效数字。
+			\item 数值计算的稳定性与病态问题。\textbf{条件数}的概念（以线性方程组为例）。
+			\item \textit{重点难点：} 理解条件数是问题本身固有的属性，与算法无关。
+		\end{itemize}
+		
+		\item \textbf{第3-4学时：浮点数系统与数值计算中的原则}
+		\begin{itemize}
+			\item IEEE浮点数标准简介（舍入、上溢、下溢）。
+			\item 数值计算中应注意的若干问题（避免相近数相减、防止大数吃小数、注意除法分母、简化计算步骤）。
+			\item （可选）算法复杂度的简单介绍（$O(n)$ notation）。
+			\item \textbf{实践环节：} 演示一个由于数值不稳定导致计算失败的经典案例（如：递归计算积分）。
+		\end{itemize}
+	\end{enumerate}
+	
+	% --- 后续部分结构类似，为节省篇幅，此处提供模板，其余部分可依此格式编写 ---
+	\subsection{第二部分：非线性方程的数值解法 (6学时)}
+	\begin{enumerate}
+		\item \textbf{第5-6学时：非线性方程求根}
+		\begin{itemize}
+			\item \textbf{二分法：}思想、算法、收敛性分析（线性收敛）、误差估计。
+			\item \textbf{不动点迭代法：}构造迭代格式，收敛性定理（局部收敛性、压缩映射原理）。
+			\item \textit{重点难点：} 理解不动点迭代的收敛条件与收敛阶的定义。
+		\end{itemize}
+		
+		\item \textbf{第7-8学时：高效求根算法}
+		\begin{itemize}
+			\item \textbf{Newton法：}几何推导、迭代公式、局部平方收敛性。
+			\item \textbf{割线法：}思想、迭代公式、超线性收敛性（收敛阶为黄金比例）。
+			\item \textit{重点难点：} Newton法对初值的敏感性以及导数难以获取时的处理。
+		\end{itemize}
+		
+		\item \textbf{第9-10学时：非线性方程组的Newton法简介与算法比较}
+		\begin{itemize}
+			\item 将Newton法推广到非线性方程组情形，介绍其矩阵形式。
+			\item 各种方法的比较：收敛速度、计算成本、robustness。
+			\item （可选）MATLAB/Python中 \texttt{fzero}, \texttt{fsolve} 函数的使用。
+			\item \textbf{实践环节：} 编程实现Newton法求解一个非线性方程，并绘制收敛过程。
+		\end{itemize}
+	\end{enumerate}
+	
+	% ... (第三至第七部分请按照相同的格式在此处继续填写) ...
+	
+	\subsection{第八部分：课程复习与综合应用 (4学时)}
+	\begin{enumerate}
+		\item \textbf{第45-48学时：课程复习与综合应用}
+		\begin{itemize}
+			\item \textbf{课程总复习（2学时）：} 梳理各章节知识脉络，强调不同领域算法之间的联系与对比。
+			\item \textbf{课程项目展示与答疑（2学时）：} 学生分组展示其课程项目的成果，交流学习心得，教师进行点评和总结。
+			\item \textbf{前沿简介（可选）：} 简要介绍当今数值分析领域的热点，如有限元法、快速多极子算法、随机数值方法等，激发学生进一步学习的兴趣。
+		\end{itemize}
+	\end{enumerate}
+	
+	% ===== 教学建议 =====
+	\section*{教学建议}
+	\begin{itemize}
+		\item \textbf{理论联系实际：} 每个章节都应配有从物理、工程、金融等领域引出的实际案例。
+		\item \textbf{编程实践：} 鼓励学生使用MATLAB或Python（SciPy库）实现核心算法，这不仅加深理解，也培养了必备的科研技能。
+		\item \textbf{批判性思维：} 引导学生不仅仅“会算”，更要“会选”和“会评”，即能根据问题特性选择最合适的算法，并能批判性地分析计算结果的可靠性。
+		\item \textbf{利用现代工具：} 教学中可以演示如何使用专业的数值计算软件/库来高效解决问题，让学生了解“造轮子”和“用轮子”的平衡。
+	\end{itemize}
+	
+\end{document}
